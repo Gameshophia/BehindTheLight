@@ -5,14 +5,16 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public Animation ani;
+    public Animator ani;
     public Rigidbody2D rb;
     public float moveSpeed;
+    private float stopX, stopY;
     public DynamicJoystick dynamicJoystick;
     // Start is called before the first frame update
     void Start()
     {
-
+        rb = GetComponent<Rigidbody2D>();
+        ani = GetComponent<Animator>();
 
     }
 
@@ -39,6 +41,21 @@ public class PlayerController : MonoBehaviour
       //  if (verticalMove != 0)
      //   {
             rb.velocity = new Vector2(rb.velocity.x, verticalMove * moveSpeed);
-      //  }
+        //  }
+        if (rb.velocity != Vector2.zero)
+        {
+            ani.SetBool("isMove", true);
+            stopX = horizontalMove;
+            stopY = verticalMove;
+        }
+        else
+        {
+            ani.SetBool("isMove", false);
+        }
+        ani.SetFloat("horizontalMove", stopX);
+        ani.SetFloat("verticalMove", stopY);
+
     }
+
+
 }
